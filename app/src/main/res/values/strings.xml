@@ -2,5 +2,7 @@
     <string name="app_name">Kotlhin01</string>
     <string name="laki">laki-laki</string>
     <string name="wanita">wanita</string>
+    <string name="belum">belum menikah</string>
+    <string name="menikah">menikah</string>
     <string name="submit">Submit</string>
 </resources>

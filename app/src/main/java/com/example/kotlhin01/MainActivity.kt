@@ -82,6 +82,7 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
     var textNama by remember { mutableStateOf("") }
     var textTlp by remember { mutableStateOf("") }
     var textEmail by remember { mutableStateOf("") }
+    var textAlamat by remember { mutableStateOf("") }
 
 
     val context = LocalContext.current
@@ -128,10 +129,25 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
     SelectJK(
         options = jenis.map { id -> context.resources.getString(id) },
         onSelectChanged = { cobaViewModel.setJenisK(it) })
+    SelectSM(
+        options = jenis.map { id -> context.resources.getString(id) },
+        onSelectChanged = { cobaViewModel.setStatusM(it) })
+    OutlinedTextField(
+        value = textAlamat,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth(),
+        label = { Text(
+            text = "Alamat") },
+        onValueChange = {
+            textTlp = it
+        }
+    )
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            cobaViewModel.insertData(textNama, textTlp,textEmail, dataForm.sex)
+            cobaViewModel.insertData(textNama, textTlp,textEmail,textAlamat,dataForm.sex)
         }
     ) {
         Text(
@@ -144,7 +160,9 @@ fun TampilForm(cobaViewModel: CobaViewModel = viewModel()) {
         namanya = cobaViewModel.namaUsr,
         telponnya = cobaViewModel.noTlp,
         emailnya = cobaViewModel.emailUsr,
-        jenisnya = cobaViewModel.jenisKl
+        jenisnya = cobaViewModel.jenisKl,
+        statusnya = cobaViewModel.statusM,
+        alamatnya = cobaViewModel.alamatUsr
     )
 }
 @Composable
@@ -179,7 +197,38 @@ fun SelectJK(
     }
 }
 @Composable
-fun TextHasil(namanya: String, telponnya: String,emailnya: String, jenisnya: String){
+fun SelectSM(
+    options: List<String>,
+    onSelectChanged: (String) -> Unit = {}
+) {
+    var selectedValue by rememberSaveable {mutableStateOf("")}
+
+    Column (modifier = Modifier.padding(16.dp)) {
+        options.forEach { item ->
+            Row (
+                modifier = Modifier.selectable(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectChanged(item)
+                    }
+                ),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RadioButton(
+                    selected = selectedValue == item,
+                    onClick = {
+                        selectedValue = item
+                        onSelectChanged(item)
+                    }
+                )
+                Text(item)
+            }
+        }
+    }
+}
+@Composable
+fun TextHasil(namanya: String, telponnya: String,emailnya: String, jenisnya: String, statusnya : String, alamatnya : String){
     ElevatedCard (
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -205,6 +254,16 @@ fun TextHasil(namanya: String, telponnya: String,emailnya: String, jenisnya: Str
         )
         Text(
             text = "Jenis : " + jenisnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
+        Text(
+            text = "Status : " + statusnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
+        Text(
+            text = "Alamat : " + alamatnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )

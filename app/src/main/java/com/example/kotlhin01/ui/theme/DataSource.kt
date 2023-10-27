@@ -7,4 +7,11 @@ object DataSource {
         R.string.laki,
         R.string.wanita
     )
+
+    object DataSource {
+        val status = listOf(
+            R.string.belum,
+            R.string.menikah
+        )
+    }
 }
