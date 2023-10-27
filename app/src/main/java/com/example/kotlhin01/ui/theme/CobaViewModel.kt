@@ -28,7 +28,7 @@ class CobaViewModel : ViewModel() {
         private set
 
 
-    fun insertData(nm: String, tlp: String, eml: String, jk: String, sm: String) {
+    fun insertData(nm: String, tlp: String, eml: String, jk: String, sm: String, al: String) {
         namaUsr = nm;
         noTlp = tlp;
         emailUsr = eml;
